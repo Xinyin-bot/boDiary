@@ -79,7 +79,7 @@ with SingleTickerProviderStateMixin{
       lineHeight: 5.0,
       percent: 1.0,
       animation: true,
-      animationDuration: 2000,
+      animationDuration: 2500,
       backgroundColor: Colors.grey,
       progressColor: Color(0xff6B2480),
       onAnimationEnd: (){
