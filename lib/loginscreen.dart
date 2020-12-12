@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'registerscreen.dart';
@@ -38,16 +39,21 @@ class _LoginscreenState extends State<Loginscreen> {
           backgroundColor: Color(0xff6B2480),
           title: Text('Login'),
         ),
-        body: Center(
+        body: Container(
+          padding: EdgeInsets.only(top: 50.0),
           child: SingleChildScrollView(
               //enable to scroll and prevent overflow when keyboard pop out
               child: Container(
-                  padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.only(left: 30,right: 30,bottom: 30),
                   child: Column(
                     children: [
                       Image.asset(
-                        "assets/images/LogoTransparent.png",
-                        scale: 1,
+                        "assets/images/ic_logo_transparent.png",
+                        width: 180,
+                        //width: 150,
+                      ),
+                      SizedBox(
+                        height: 20.0,
                       ),
                       TextField(
                           controller: _emcontroller,
@@ -84,30 +90,37 @@ class _LoginscreenState extends State<Loginscreen> {
                           Text("Remember Me", style: TextStyle(fontSize: 16)),
                         ],
                       ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
                       MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0)),
-                        minWidth: 300,
-                        height: 50,
+
+                        // minWidth: 300,
+                        // height: 50,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        minWidth: double.infinity,
                         child: Text('Login'),
-                        color: Colors.black,
-                        disabledColor: Colors.red,
+                        color: Color(0xff6B2480),
+                        disabledColor: Colors.grey,
                         textColor: Colors.white,
                         elevation: 10,
                         onPressed: _onPress,
                       ),
                       SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: _onRegister,
-                          child: Text("Register New Account",
-                              style: TextStyle(fontSize: 15,
-                              color: Color(0xff6B2480),
-                              decoration:TextDecoration.underline))),
-                      SizedBox(height: 15),
                       GestureDetector(
                           onTap: _onForget,
-                          child: Text("Forgot Password",
+                          child: Text("Forgot Password?",
                               style: TextStyle(fontSize: 15))),
+                      SizedBox(height: 80),
+                      GestureDetector(
+                          onTap: _onRegister,
+                          child: Text("No Account Yet? Register New Account",
+                              style: TextStyle(fontSize: 15,
+                                  color: Color(0xff6B2480),
+                                  decoration:TextDecoration.underline))),
+
                     ],
                   ))),
         ),
@@ -142,10 +155,12 @@ class _LoginscreenState extends State<Loginscreen> {
 
     Navigator.push
          (
-           context, 
+           context,
            MaterialPageRoute(
-             builder: (BuildContext context) => Registerscreen())
+             builder: (BuildContext context) => Registerscreen()),
+
          );
+
   }
 
   void _onForget() {

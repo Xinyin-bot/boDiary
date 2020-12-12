@@ -38,136 +38,140 @@ class _RegisterscreenState extends State<Registerscreen> {
         backgroundColor: Color(0xff6B2480),
         title: Text('Registration'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Form(
+      body:  Form(
             //to make validator activate
             key: formKey, //to make validator activate
             autovalidateMode:
                 AutovalidateMode.onUserInteraction, //to make validator active
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Image.asset(
-                    "assets/images/LogoTransparent.png",
-                    scale: 1,
-                  ),
-                  TextFormField(
-                      controller: _namecontroller,
-                      validator: validName,
-                      onSaved: (String name) {
-                        _name = name;
-                      },
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                          labelText: "Name", icon: Icon(Icons.person,color: Color(0xff6B2480)))),
-                  TextFormField(
-                      controller: _phcontroller,
-                      validator: validPhone,
-                      onSaved: (String phone) {
-                        _phone = phone;
-                      },
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          labelText: "Phone No", icon: Icon(Icons.phone,color: Color(0xff6B2480)))),
-                  TextFormField(
-                      controller: _emcontroller,
-                      validator: validEmail,
-                      onSaved: (String email) {
-                        _email = email;
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        icon: Icon(Icons.email,color: Color(0xff6B2480)),
-                      )),
-                  TextFormField(
-                    controller: _pscontroller,
-                    validator: validPassword,
-                    onSaved: (String password) {
-                      _password = password;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      icon: Icon(Icons.lock,color: Color(0xff6B2480)),
-                      suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Color(0xff6B2480),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          }),
+              child: Container(
+                padding: EdgeInsets.all(25.0),
+                child: Column(
+                  children: [
+                    // Image.asset(
+                    //   "assets/images/LogoTransparent.png",
+                    //   scale: 1,
+                    // ),
+                    SizedBox(
+                      height: 80,
                     ),
-                    obscureText: _passwordVisible,
-                  ),
-                  TextFormField(
-                    controller: _confirmpscontroller,
-                    validator: validConfirmPassword,
-                    onSaved: (String confirmPassword) {
-                      _password = confirmPassword;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Password Confirmation",
-                      icon: Icon(Icons.lock,color: Color(0xff6B2480)),
-                      suffixIcon: IconButton(
-                          icon: Icon(
-                            _passwordVisible
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Color(0xff6B2480),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          }),
-                    ),
-                    obscureText: _passwordVisible,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                        value: _termCondition,
-                        onChanged: (bool value) {
-                          _onChange1(value);
+                    TextFormField(
+                        controller: _namecontroller,
+                        validator: validName,
+                        onSaved: (String name) {
+                          _name = name;
                         },
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                            labelText: "Name", icon: Icon(Icons.person,color: Color(0xff6B2480)))),
+                    TextFormField(
+                        controller: _phcontroller,
+                        validator: validPhone,
+                        onSaved: (String phone) {
+                          _phone = phone;
+                        },
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                            labelText: "Phone No", icon: Icon(Icons.phone,color: Color(0xff6B2480)))),
+                    TextFormField(
+                        controller: _emcontroller,
+                        validator: validEmail,
+                        onSaved: (String email) {
+                          _email = email;
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          icon: Icon(Icons.email,color: Color(0xff6B2480)),
+                        )),
+                    TextFormField(
+                      controller: _pscontroller,
+                      validator: validPassword,
+                      onSaved: (String password) {
+                        _password = password;
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        icon: Icon(Icons.lock,color: Color(0xff6B2480)),
+                        suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xff6B2480),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            }),
                       ),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                          onTap: _showEULA,
-                          child: Text('Agreed Terms & Condition',
-                          
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline))),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    minWidth: 300,
-                    height: 50,
-                    child: Text('Register'),
-                    color: Colors.black,
-                    textColor: Colors.white,
-                    elevation: 10,
-                    onPressed: newRegisterAccount,
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                      onTap: _onLogin,
-                      child: Text('Already Registered',
-                          style: TextStyle(fontSize: 16))),
-                ],
+                      obscureText: _passwordVisible,
+                    ),
+                    TextFormField(
+                      controller: _confirmpscontroller,
+                      validator: validConfirmPassword,
+                      onSaved: (String confirmPassword) {
+                        _password = confirmPassword;
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Password Confirmation",
+                        icon: Icon(Icons.lock,color: Color(0xff6B2480)),
+                        suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Color(0xff6B2480),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            }),
+                      ),
+                      obscureText: _passwordVisible,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Checkbox(
+                          value: _termCondition,
+                          onChanged: (bool value) {
+                            _onChange1(value);
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        GestureDetector(
+                            onTap: _showEULA,
+                            child: Text('Agreed Terms & Condition',
+                            
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline))),
+                      ],
+                    ),
+                    SizedBox(height: 100),
+                    MaterialButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: Text('Register'),
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      minWidth: double.infinity,
+                      textColor: Colors.white,
+                      color: Color(0xff6B2480),
+                      elevation: 10,
+                      onPressed: newRegisterAccount,
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                        onTap: _onLogin,
+                        child: Text('Already Registered',
+                            style: TextStyle(fontSize: 16))),
+                  ],
+                ),
               ),
             )),
-      ),
+      
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'loginscreen.dart'; 
 
 void main() => runApp(Splashscreen());
@@ -15,7 +16,7 @@ class Splashscreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: 
               [
-              Image.asset("assets/images/LogoTransparent.png", height: 200.0, fit: BoxFit.cover),
+              Image.asset("assets/images/ic_logo_transparent.png", height: 200.0, fit: BoxFit.cover),
               SizedBox(height:10),
               ProgressIndicator(),
               ],
@@ -45,7 +46,7 @@ with SingleTickerProviderStateMixin{
 
     super.initState();
 
-    controller = AnimationController(duration: const Duration(milliseconds:2000), vsync:this);
+    controller = AnimationController(duration: const Duration(milliseconds:2000), vsync: this);
     //animation runs 2 seconds + synchronized with this class
 
                       //run from 0% to 100%
@@ -72,11 +73,18 @@ with SingleTickerProviderStateMixin{
 
 @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator
-    //LinearProgressIndicator is a straight-line indicator
-       (
-         value: animation.value,
-         valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
-       );
+    return LinearPercentIndicator(
+      alignment: MainAxisAlignment.center,
+      width: 140.0,
+      lineHeight: 5.0,
+      percent: 1.0,
+      animation: true,
+      animationDuration: 2000,
+      backgroundColor: Colors.grey,
+      progressColor: Color(0xff6B2480),
+      onAnimationEnd: (){
+
+      },
+    );
   }
 }
