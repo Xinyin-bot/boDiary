@@ -66,7 +66,7 @@ class _MainscreenState extends State<Mainscreen> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: postList.length,
-                        physics: NeverScrollableScrollPhysics(),
+                        //physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           print(postList.length);
                           return Padding(
@@ -97,11 +97,12 @@ class _MainscreenState extends State<Mainscreen> {
                                                                     .circle,
                                                                 image:
                                                                     DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      "http://sopmathpowy2.com/BoDiary/images/userimages/${userList[index]['userimage']}.jpg"),
-                                                                  // image:AssetImage('assets/images/ic_logo_transparent.png')
-                                                                  fit: BoxFit
-                                                                      .fill,
+                                                                  //image: userList[index]['userimage'] != null ?
+                                                                  // NetworkImage(
+                                                                  //     "http://sopmathpowy2.com/BoDiary/images/userimages/${userList[0]['userimage']}.jpg") :
+                                                                      
+                                                                    image:  AssetImage('assets/images/ic_logo_transparent.png'),
+                                                                  fit: BoxFit.fill,
                                                                 ))),
                                                     SizedBox(width: 15),
                                                     InkWell(
@@ -304,18 +305,18 @@ class _MainscreenState extends State<Mainscreen> {
       postcomment: postList[index]['postcomment'],
     );
 
-    User users = new User(
-      username: userList[index]['username'],
-      userphone: userList[index]['userphone'],
-      userimage: userList[index]['userimage'],
-      useremail: userList[index]['useremail'],
-    );
+    // User users = new User(
+    //   username: userList[index]['username'],
+    //   userphone: userList[index]['userphone'],
+    //   userimage: userList[index]['userimage'],
+    //   useremail: userList[index]['useremail'],
+    // );
     // print(index);
     // print(postList.length);
     // print(posts.username);
 
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => PostDetailsScreen(posts, users),
+      builder: (context) => PostDetailsScreen(posts, widget.user),
     ));
   }
 

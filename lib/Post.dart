@@ -1,10 +1,13 @@
-  class Post {
+  import 'package:food_ninja/user.dart';
+
+class Post {
 String postid,
        username,
        postimage,
        postcaption,
        postdate,
        postcomment;
+       User users;
 
   Post(
       {
