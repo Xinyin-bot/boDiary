@@ -12,9 +12,10 @@ import 'package:intl/intl.dart';
 void main() => runApp(Mainscreen());
 
 class Mainscreen extends StatefulWidget {
-  // final User user;
+  final User user;
+  final Post post;
 
-  // const Mainscreen({Key key, this.user}) : super(key: key);
+  const Mainscreen({Key key, this.user, this.post}) : super(key: key);
 
   @override
   _MainscreenState createState() => _MainscreenState();
@@ -44,10 +45,11 @@ class _MainscreenState extends State<Mainscreen> {
               icon: Icon(
                 Icons.person, 
                 color:Colors.white,),
-                //onPressed: () => _loadUserDetails(index),
+                onPressed: () => _userDetailsScreen(),
             )
           ],
         ),
+        
         body: Column(
           children: [
             postList == null
@@ -102,14 +104,18 @@ class _MainscreenState extends State<Mainscreen> {
                                                                       .fill,
                                                                 ))),
                                                     SizedBox(width: 15),
-                                                    Text(
+                                                    InkWell(
+                                                      child:Text(
                                                         postList[index]
                                                             ['username'],
                                                         style: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight:
                                                                 FontWeight
-                                                                    .bold)),
+                                                                    .bold),
+                                                                    ),
+                                                                    onTap: () => _loadPostUserDetails(index))
+                                                    
                                                   ]),
                                                   SizedBox(height: 15),
                                                   Container(
@@ -313,28 +319,12 @@ class _MainscreenState extends State<Mainscreen> {
     ));
   }
 
-    _loadUserDetails(int index) {
-    Post posts = new Post(
-      postid: postList[index]['postid'],
-      username: postList[index]['username'],
-      postimage: postList[index]['postimage'],
-      postcaption: postList[index]['postcaption'],
-      postdate: postList[index]['postdate'],
-      postcomment: postList[index]['postcomment'],
-    );
+    void _userDetailsScreen() {
 
-    User users = new User(
-      username: userList[index]['username'],
-      userphone: userList[index]['userphone'],
-      userimage: userList[index]['userimage'],
-      useremail: userList[index]['useremail'],
+        Navigator.push(context, MaterialPageRoute(
+      builder:(BuildContext context) => 
+      UserDetailsScreen(postsss: widget.post,usersss: widget.user)),
     );
-    // print(index);
-    // print(postList.length);
-    // print(posts.username);
-
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => UserDetailsScreen(posts, users),
-    ));
+    
   }
 }

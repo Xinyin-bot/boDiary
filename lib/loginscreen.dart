@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_ninja/mainscreen.dart';
+import 'package:food_ninja/user.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
@@ -165,11 +166,26 @@ class _LoginscreenState extends State<Loginscreen> {
       }).then((res) {
         print(res.body);
 
-        if (res.body.contains("LOGIN SUCCESS!")) {
+        List userdata = res.body.split(",");
+
+        if (userdata[0] == "success") {
           Toast.show("Login Success!", context,
               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
 
-          _onMainScreen();
+          User userrr = new User(
+            username: userdata[1],
+            userphone: userdata[2],
+            userimage : userdata[3],
+            useremail : _email,
+          );
+            
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => Mainscreen(user: userrr)));
+
+
+          //_onMainScreen();
         } else if (res.body.contains("LOGIN FAILED!")) {
           Toast.show("Login Failed!", context,
               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
