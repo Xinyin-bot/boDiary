@@ -6,6 +6,7 @@ import 'package:food_ninja/comment.dart';
 import 'package:food_ninja/user.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 import 'Post.dart';
 
@@ -23,12 +24,17 @@ class PostDetailsScreen extends StatefulWidget {
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
   Post posts;
   User users;
+
   _PostDetailsScreenState(Post postsss, User usersss);
 
   List commentList;
   //List userList;
 
-  String titlecenter = "Loading Posts...";
+  String titlecenter = "Loading Posts......";
+
+  final TextEditingController _commentcontroller = TextEditingController();
+
+  String _commentcaption = "";
 
   @override
   void initState() {
@@ -62,18 +68,18 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           child: Column(children: [
                         SizedBox(height: 15),
                         Row(children: [
-                          SizedBox(width:5),
+                          SizedBox(width: 5),
                           Container(
-                            width: 45.0,
-                            height: 45.0,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      "http://sopmathpowy2.com/BoDiary/images/userimages/${users.userimage}.jpg"),
-                                  // image:AssetImage('assets/images/ic_logo_transparent.png')
-                                  fit: BoxFit.fill,
-                                ))),
+                              width: 45.0,
+                              height: 45.0,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        "http://sopmathpowy2.com/BoDiary/images/userimages/${users.userimage}.jpg"),
+                                    // image:AssetImage('assets/images/ic_logo_transparent.png')
+                                    fit: BoxFit.fill,
+                                  ))),
                           SizedBox(width: 15),
                           Text(posts.username,
                               style: TextStyle(
@@ -112,50 +118,57 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
               ))),
           Expanded(
             child: SingleChildScrollView(
-                child: commentList == null
-                    ?
-                    // ? Flexible(
-                    //     child: Container(
-                    //         child: Center(
-                    //             child: Text(
-                    //     titlecenter,
-                    //     style: TextStyle(
-                    //         fontSize: 18,
-                    //         fontWeight: FontWeight.bold,
-                    //         color: Colors.black),
-                    //   ))))
-                    Card(
-                        elevation: 5,
-                        child: Container(
-                            padding: EdgeInsets.all(20.0),
-                            child: Center(
-                              child: Text(
-                                  "No Comment/nsadasdasd/n/nasdasdasdasdasdas/nasdasd/nasdasdad/nasdasdasd/n"),
-                            )))
-                    : Card(
-                        elevation: 5,
-                        child: Container(
-                            padding: EdgeInsets.all(20),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: commentList.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  // print(commentList.length);
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(commentList[index]['username']),
-                                      Text(
-                                          commentList[index]['commentcaption']),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  );
-                                })))),
-          )
+              child: commentList == null
+                  ?
+                  // ? Flexible(
+                  //     child: Container(
+                  //         child: Center(
+                  //             child: Text(
+                  //     titlecenter,
+                  //     style: TextStyle(
+                  //         fontSize: 18,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: Colors.black),
+                  //   ))))
+                  Container(
+                      child: Container(
+                          padding: EdgeInsets.all(20.0),
+                          child: Center(
+                            child: Text(
+                                "No Comment/nsadasdasd/n/nasdasdasdasdasdas/nasdasd/nasdasdad/nasdasdasd/n"),
+                          )))
+                  : Container(
+                      child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: commentList.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                // print(commentList.length);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(commentList[index]['username']),
+                                    Text(commentList[index]['commentcaption']),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                );
+                              }))),
+            ),
+          ),
+          TextField(
+              controller: _commentcontroller,
+              decoration: InputDecoration(
+                  labelText: "Comment",
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      _updatecomment();
+                    },
+                    icon: Icon(Icons.send),
+                  ))),
         ]));
   }
 
@@ -177,6 +190,40 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
           commentList = jsondata["comments"];
         });
+      }
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  void _updatecomment() {
+    final dateTime  = DateTime.now();
+    _commentcaption = _commentcontroller.text;
+
+    http.post("http://sopmathpowy2.com/BoDiary/php/add_newComment.php", body: {
+      "postid": posts.postid,
+      "commentcaption": _commentcaption,
+      "useremail": users.useremail,
+      "username": users.username,
+      "datecomment": "-${dateTime.microsecondsSinceEpoch}",
+    }).then((res) {
+      print(res.body);
+
+      if (res.body == "succes") {
+        Toast.show(
+          "Success",
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.TOP,
+        );
+        Navigator.pop(context);
+      } else {
+        Toast.show(
+          "Failed",
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.TOP,
+        );
       }
     }).catchError((err) {
       print(err);
@@ -218,4 +265,5 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
   //   //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FoodScreen(foods: food)));
   // }
+
 }

@@ -43,16 +43,54 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff6B2480),
           title: Text(widget.usersss.username),
         ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
+        body: Column(children: [
+          Container(
+              padding: EdgeInsets.all(3),
+              child: (Column(
+                children: [
+                  Container(
+                      //padding: EdgeInsets.all(20),
+                      child: Column(
+                    children: [
+                      Container(
+                          child: 
+                          Column(children: [
+                        SizedBox(height: 15),
+                        Row(children: [
+                          SizedBox(width:5),
+                          Container(
+                            width: 125.0,
+                            height: 125.0,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      "http://sopmathpowy2.com/BoDiary/images/userimages/${widget.usersss.userimage}.jpg"),
+                                  // image:AssetImage('assets/images/ic_logo_transparent.png')
+                                  fit: BoxFit.fill,
+                                ))),
+                          SizedBox(width: 15),
+                          Text(widget.usersss.username,
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                        ]),
+                        SizedBox(height: 15),
+
+                      ])),
+                    ],
+                  )),
+                ],
+              ))),
+        ])
       );
   }
 }
