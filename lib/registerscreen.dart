@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'loginscreen.dart';
 
@@ -22,156 +26,186 @@ class _RegisterscreenState extends State<Registerscreen> {
   final GlobalKey<FormState> formKey =
       GlobalKey<FormState>(); //to make validator activate
 
+  double screenHeight, screenWidth;
+
   String _name = "";
   String _phone = "";
   String _email = "";
   String _password = "";
 
+  File _image;
+  String pathAsset = "assets/images/camera.png";
+
   bool _passwordVisible = true;
   bool _termCondition = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       //use Scaffold to follow the theme
       appBar: AppBar(
         backgroundColor: Color(0xff6B2480),
         title: Text('Registration'),
       ),
-      body:  Form(
-            //to make validator activate
-            key: formKey, //to make validator activate
-            autovalidateMode:
-                AutovalidateMode.onUserInteraction, //to make validator active
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(25.0),
-                child: Column(
-                  children: [
-                    // Image.asset(
-                    //   "assets/images/LogoTransparent.png",
-                    //   scale: 1,
-                    // ),
-                    SizedBox(
-                      height: 80,
-                    ),
-                    TextFormField(
-                        controller: _namecontroller,
-                        validator: validName,
-                        onSaved: (String name) {
-                          _name = name;
-                        },
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                            labelText: "Name", icon: Icon(Icons.person,color: Color(0xff6B2480)))),
-                    TextFormField(
-                        controller: _phcontroller,
-                        validator: validPhone,
-                        onSaved: (String phone) {
-                          _phone = phone;
-                        },
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            labelText: "Phone No", icon: Icon(Icons.phone,color: Color(0xff6B2480)))),
-                    TextFormField(
-                        controller: _emcontroller,
-                        validator: validEmail,
-                        onSaved: (String email) {
-                          _email = email;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          icon: Icon(Icons.email,color: Color(0xff6B2480)),
-                        )),
-                    TextFormField(
-                      controller: _pscontroller,
-                      validator: validPassword,
-                      onSaved: (String password) {
-                        _password = password;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        icon: Icon(Icons.lock,color: Color(0xff6B2480)),
-                        suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Color(0xff6B2480),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            }),
-                      ),
-                      obscureText: _passwordVisible,
-                    ),
-                    TextFormField(
-                      controller: _confirmpscontroller,
-                      validator: validConfirmPassword,
-                      onSaved: (String confirmPassword) {
-                        _password = confirmPassword;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Password Confirmation",
-                        icon: Icon(Icons.lock,color: Color(0xff6B2480)),
-                        suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Color(0xff6B2480),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            }),
-                      ),
-                      obscureText: _passwordVisible,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Checkbox(
-                          value: _termCondition,
-                          onChanged: (bool value) {
-                            _onChange1(value);
-                          },
+      body: Form(
+          //to make validator activate
+          key: formKey, //to make validator activate
+          autovalidateMode:
+              AutovalidateMode.onUserInteraction, //to make validator active
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(25.0),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => {_onPictureSelection()},
+                    child: Container(
+                      height: screenHeight / 4.2,
+                      width: screenWidth / 2,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: _image == null
+                              ? AssetImage(
+                                  pathAsset) //'assets/images/camera.png'
+                              : FileImage(_image),
+                          fit: BoxFit.cover,
                         ),
-                        SizedBox(height: 10),
-                        GestureDetector(
-                            onTap: _showEULA,
-                            child: Text('Agreed Terms & Condition',
-                            
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    decoration: TextDecoration.underline))),
-                      ],
+                        border: Border.all(
+                          width: 3.0,
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
                     ),
-                    SizedBox(height: 100),
-                    MaterialButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: Text('Register'),
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      minWidth: double.infinity,
-                      textColor: Colors.white,
-                      color: Color(0xff6B2480),
-                      elevation: 10,
-                      onPressed: newRegisterAccount,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                      controller: _namecontroller,
+                      validator: validName,
+                      onSaved: (String name) {
+                        _name = name;
+                      },
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                          labelText: "Name",
+                          icon: Icon(Icons.person, color: Color(0xff6B2480)))),
+                  TextFormField(
+                      controller: _phcontroller,
+                      validator: validPhone,
+                      onSaved: (String phone) {
+                        _phone = phone;
+                      },
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                          labelText: "Phone No",
+                          icon: Icon(Icons.phone, color: Color(0xff6B2480)))),
+                  TextFormField(
+                      controller: _emcontroller,
+                      validator: validEmail,
+                      onSaved: (String email) {
+                        _email = email;
+                      },
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        icon: Icon(Icons.email, color: Color(0xff6B2480)),
+                      )),
+                  TextFormField(
+                    controller: _pscontroller,
+                    validator: validPassword,
+                    onSaved: (String password) {
+                      _password = password;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      icon: Icon(Icons.lock, color: Color(0xff6B2480)),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Color(0xff6B2480),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          }),
                     ),
-                    SizedBox(height: 20),
-                    GestureDetector(
-                        onTap: _onLogin,
-                        child: Text('Already Registered',
-                            style: TextStyle(fontSize: 16))),
-                  ],
-                ),
+                    obscureText: _passwordVisible,
+                  ),
+                  TextFormField(
+                    controller: _confirmpscontroller,
+                    validator: validConfirmPassword,
+                    onSaved: (String confirmPassword) {
+                      _password = confirmPassword;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Password Confirmation",
+                      icon: Icon(Icons.lock, color: Color(0xff6B2480)),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Color(0xff6B2480),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          }),
+                    ),
+                    obscureText: _passwordVisible,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                        value: _termCondition,
+                        onChanged: (bool value) {
+                          _onChange1(value);
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      GestureDetector(
+                          onTap: _showEULA,
+                          child: Text('Agreed Terms & Condition',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline))),
+                    ],
+                  ),
+                  SizedBox(height: 50),
+                  MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Text('Register'),
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    minWidth: double.infinity,
+                    textColor: Colors.white,
+                    color: Color(0xff6B2480),
+                    elevation: 10,
+                    onPressed: newRegisterAccount,
+                  ),
+                  SizedBox(height: 20),
+                  GestureDetector(
+                      onTap: _onLogin,
+                      child: Text('Already Registered',
+                          style: TextStyle(fontSize: 16))),
+                ],
               ),
-            )),
-      
+            ),
+          )),
     );
   }
 
@@ -181,31 +215,37 @@ class _RegisterscreenState extends State<Registerscreen> {
     _email = _emcontroller.text;
     _password = _pscontroller.text;
 
+        final dateTime = DateTime.now();
+        String base64Image = base64Encode(_image.readAsBytesSync());
+        
+        print(base64Image);
+
+
     ProgressDialog pr = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
 
- 
-    if ( _name.length == 0 ||
+    if (_name.length == 0 ||
         _phone.length == 0 ||
         _email.length == 0 ||
         _password.length == 0 ||
         _termCondition == false) {
-          if(_termCondition == false)
-          {
-            Toast.show("Please agree Terms & Condition",
-             context,
-             duration:Toast.LENGTH_LONG,
-             gravity:Toast.CENTER,
-             );
-          }else{
-            Toast.show(
-        "Some information is missed!",
-        context,
-        duration: Toast.LENGTH_LONG,
-        gravity: Toast.CENTER,
-      );
+      print("_name.length == 0 ....");
+
+      if (_termCondition == false) {
+        Toast.show(
+          "Please agree Terms & Condition",
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+        );
+      } else {
+        Toast.show(
+          "Some information is missed!",
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+        );
       }
-      
     } else {
       pr.style(message: "Registration......");
       await pr.show();
@@ -216,10 +256,13 @@ class _RegisterscreenState extends State<Registerscreen> {
             "phone": _phone,
             "email": _email,
             "password": _password,
+            "imagename": _phone + "-${dateTime.microsecondsSinceEpoch}",
+            "encoded_string": base64Image,
+
           }).then((res) {
         print(res.body);
 
-        if (res.body == "SUCCESS: REGISTER USER") {
+        if (res.body.contains('REGISTRATION SUCCESS!')) {
           Toast.show(
             "Registration Success! We have sent an verification mail to your email.",
             context,
@@ -227,7 +270,7 @@ class _RegisterscreenState extends State<Registerscreen> {
             gravity: Toast.CENTER,
           );
           _onLogin();
-        } else if (res.body == "FAILED: REGISTER USER") {
+        } else if (res.body.contains('REGISTRATION FAILED!')) {
           Toast.show(
             "Registration Failed!",
             context,
@@ -238,11 +281,9 @@ class _RegisterscreenState extends State<Registerscreen> {
       }).catchError((err) {
         print(err);
       });
-
       await pr.hide();
     }
   }
-
 
   void _onLogin() {
     Navigator.push(context,
@@ -405,5 +446,118 @@ class _RegisterscreenState extends State<Registerscreen> {
         );
       },
     );
+  }
+
+  _onPictureSelection() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            //backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            content: new Container(
+              //color: Colors.white,
+              height: screenHeight / 4,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Take picture from:",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      )),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                          child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        minWidth: 100,
+                        height: 100,
+                        child: Text('Camera',
+                            style: TextStyle(
+                              color: Colors.black,
+                            )),
+                        color: Colors.grey,
+                        textColor: Colors.black,
+                        elevation: 10,
+                        onPressed: () =>
+                            {Navigator.pop(context), _chooseCamera()},
+                      )),
+                      SizedBox(width: 10),
+                      Flexible(
+                          child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        minWidth: 100,
+                        height: 100,
+                        child: Text('Gallery',
+                            style: TextStyle(
+                              color: Colors.black,
+                            )),
+                        color: Colors.grey,
+                        textColor: Colors.black,
+                        elevation: 10,
+                        onPressed: () => {
+                          Navigator.pop(context),
+                          _chooseGallery(),
+                        },
+                      )),
+                    ],
+                  ),
+                ],
+              ),
+            ));
+      },
+    );
+  }
+
+  _chooseCamera() async {
+    _image = await ImagePicker.pickImage(
+        source: ImageSource.camera, maxHeight: 800, maxWidth: 800);
+    _cropImage();
+    setState(() {});
+  }
+
+  _chooseGallery() async {
+    _image = await ImagePicker.pickImage(
+        source: ImageSource.gallery, maxHeight: 800, maxWidth: 800);
+    _cropImage();
+    setState(() {});
+  }
+
+  Future<Null> _cropImage() async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: _image.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+              ]
+            : [
+                CropAspectRatioPreset.square,
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Resize',
+            toolbarColor: Colors.black,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Croppper',
+        ));
+
+    if (croppedFile != null) {
+      _image = croppedFile;
+      setState(() {});
+    }
   }
 }

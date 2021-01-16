@@ -71,6 +71,16 @@ with SingleTickerProviderStateMixin{
      controller.repeat();
   }
 
+// @override
+//   Widget build(BuildContext context) {
+//     return CircularProgressIndicator
+//     //LinearProgressIndicator is a straight-line indicator
+//        (
+//          value: animation.value,
+//          valueColor: AlwaysStoppedAnimation<Color>(Colors.purple),
+//        );
+//   }
+
 @override
   Widget build(BuildContext context) {
     return LinearPercentIndicator(
