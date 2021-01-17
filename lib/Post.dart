@@ -5,8 +5,7 @@ String postid,
        username,
        postimage,
        postcaption,
-       postdate,
-       postcomment;
+       postdate;
        User users;
 
   Post(
@@ -15,6 +14,5 @@ String postid,
     this.username,
     this.postimage,
     this.postcaption,
-    this.postdate,
-    this.postcomment});
+    this.postdate});
 }

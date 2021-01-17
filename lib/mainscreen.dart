@@ -9,6 +9,12 @@ import 'package:food_ninja/userdetailsscreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+
+Color mainColor = Color(0xff6B2480);
+Color secondColor = Color(0xffD8399B);
+Color thirdColor = Color(0xffF78484);
+Color forthColor = Color(0xffFDBE89);
+
 void main() => runApp(Mainscreen());
 
 class Mainscreen extends StatefulWidget {
@@ -38,7 +44,7 @@ class _MainscreenState extends State<Mainscreen> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff6B2480),
+          backgroundColor: mainColor,
           title: Text('Bodiary'),
           actions:<Widget>[
             IconButton(
@@ -302,7 +308,6 @@ class _MainscreenState extends State<Mainscreen> {
       postimage: postList[index]['postimage'],
       postcaption: postList[index]['postcaption'],
       postdate: postList[index]['postdate'],
-      postcomment: postList[index]['postcomment'],
     );
 
     // User users = new User(

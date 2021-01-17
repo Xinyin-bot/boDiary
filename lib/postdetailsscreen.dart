@@ -10,6 +10,13 @@ import 'package:toast/toast.dart';
 
 import 'Post.dart';
 
+
+Color mainColor = Color(0xff6B2480);
+Color secondColor = Color(0xffD8399B);
+Color thirdColor = Color(0xffF78484);
+Color forthColor = Color(0xffFDBE89);
+
+
 class PostDetailsScreen extends StatefulWidget {
   final Post postsss;
   final User usersss;
@@ -75,7 +82,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff6B2480),
+          backgroundColor: mainColor,
           title: Text('Post'),
         ),
         body: Column(children: [
@@ -190,7 +197,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   labelText: "Comment",
                   suffixIcon: IconButton(
                     onPressed: () {
-                      _updatecomment();
+                      _updatenewcomment();
                     },
                     icon: Icon(Icons.send),
                   ))),
@@ -221,7 +228,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     });
   }
 
-  void _updatecomment() {
+  void _updatenewcomment() {
     final dateTime  = DateTime.now();
     _commentcaption = _commentcontroller.text;
 

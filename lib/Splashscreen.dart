@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'loginscreen.dart'; 
 
+Color mainColor = Color(0xff6B2480);
+Color secondColor = Color(0xffD8399B);
+Color thirdColor = Color(0xffF78484);
+Color forthColor = Color(0xffFDBE89);
+
 void main() => runApp(Splashscreen());
  
 class Splashscreen extends StatelessWidget {
@@ -91,7 +96,7 @@ with SingleTickerProviderStateMixin{
       animation: true,
       animationDuration: 2500,
       backgroundColor: Colors.grey,
-      progressColor: Color(0xff6B2480),
+      progressColor: mainColor,
       onAnimationEnd: (){
 
       },

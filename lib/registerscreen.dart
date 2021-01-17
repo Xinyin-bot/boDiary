@@ -10,6 +10,11 @@ import 'package:image_picker/image_picker.dart';
 
 import 'loginscreen.dart';
 
+Color mainColor = Color(0xff6B2480);
+Color secondColor = Color(0xffD8399B);
+Color thirdColor = Color(0xffF78484);
+Color forthColor = Color(0xffFDBE89);
+
 void main() => runApp(Registerscreen());
 
 class Registerscreen extends StatefulWidget {
@@ -52,7 +57,7 @@ class _RegisterscreenState extends State<Registerscreen> {
     return Scaffold(
       //use Scaffold to follow the theme
       appBar: AppBar(
-        backgroundColor: Color(0xff6B2480),
+        backgroundColor: mainColor,
         title: Text('Registration'),
       ),
       body: Form(
@@ -98,7 +103,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                           labelText: "Name",
-                          icon: Icon(Icons.person, color: Color(0xff6B2480)))),
+                          icon: Icon(Icons.person, color: mainColor))),
                   TextFormField(
                       controller: _phcontroller,
                       validator: validPhone,
@@ -108,7 +113,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                           labelText: "Phone No",
-                          icon: Icon(Icons.phone, color: Color(0xff6B2480)))),
+                          icon: Icon(Icons.phone, color: mainColor))),
                   TextFormField(
                       controller: _emcontroller,
                       validator: validEmail,
@@ -118,7 +123,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "Email",
-                        icon: Icon(Icons.email, color: Color(0xff6B2480)),
+                        icon: Icon(Icons.email, color: mainColor),
                       )),
                   TextFormField(
                     controller: _pscontroller,
@@ -128,13 +133,13 @@ class _RegisterscreenState extends State<Registerscreen> {
                     },
                     decoration: InputDecoration(
                       labelText: "Password",
-                      icon: Icon(Icons.lock, color: Color(0xff6B2480)),
+                      icon: Icon(Icons.lock, color: mainColor),
                       suffixIcon: IconButton(
                           icon: Icon(
                             _passwordVisible
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: Color(0xff6B2480),
+                            color: mainColor,
                           ),
                           onPressed: () {
                             setState(() {
@@ -152,13 +157,13 @@ class _RegisterscreenState extends State<Registerscreen> {
                     },
                     decoration: InputDecoration(
                       labelText: "Password Confirmation",
-                      icon: Icon(Icons.lock, color: Color(0xff6B2480)),
+                      icon: Icon(Icons.lock, color: mainColor),
                       suffixIcon: IconButton(
                           icon: Icon(
                             _passwordVisible
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                            color: Color(0xff6B2480),
+                            color: mainColor,
                           ),
                           onPressed: () {
                             setState(() {
@@ -193,7 +198,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     minWidth: double.infinity,
                     textColor: Colors.white,
-                    color: Color(0xff6B2480),
+                    color: mainColor,
                     elevation: 10,
                     onPressed: newRegisterAccount,
                   ),

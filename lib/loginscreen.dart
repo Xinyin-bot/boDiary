@@ -10,6 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'registerscreen.dart';
 
+Color mainColor = Color(0xff6B2480);
+Color secondColor = Color(0xffD8399B);
+Color thirdColor = Color(0xffF78484);
+Color forthColor = Color(0xffFDBE89);
+
 void main() => runApp(Loginscreen());
 
 class Loginscreen extends StatefulWidget {
@@ -41,7 +46,7 @@ class _LoginscreenState extends State<Loginscreen> {
       onWillPop: _onBackPressAppBar,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xff6B2480),
+          backgroundColor: mainColor,
           title: Text('Login'),
         ),
         body: Container(
@@ -66,18 +71,18 @@ class _LoginscreenState extends State<Loginscreen> {
                           decoration: InputDecoration(
                               labelText: "Email",
                               icon:
-                                  Icon(Icons.email, color: Color(0xff6B2480)))),
+                                  Icon(Icons.email, color: mainColor))),
                       TextField(
                         controller: _pscontroller,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          icon: Icon(Icons.lock, color: Color(0xff6B2480)),
+                          icon: Icon(Icons.lock, color: mainColor),
                           suffixIcon: IconButton(
                               icon: Icon(
                                 _passwordVisible
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Color(0xff6B2480),
+                                color: mainColor,
                               ),
                               onPressed: () {
                                 setState(() {
@@ -109,24 +114,24 @@ class _LoginscreenState extends State<Loginscreen> {
                         padding: EdgeInsets.symmetric(vertical: 15),
                         minWidth: double.infinity,
                         child: Text('Login'),
-                        color: Color(0xff6B2480),
+                        color: mainColor,
                         disabledColor: Colors.grey,
                         textColor: Colors.white,
                         elevation: 10,
                         onPressed: _onLogin,
                       ),
                       SizedBox(height: 20),
-                      GestureDetector(
-                          onTap: _onForget,
-                          child: Text("Forgot Password?",
-                              style: TextStyle(fontSize: 15))),
+                      // GestureDetector(
+                      //     onTap: _onForget,
+                      //     child: Text("Forgot Password?",
+                      //         style: TextStyle(fontSize: 15))),
                       SizedBox(height: 80),
                       GestureDetector(
                           onTap: _onRegister,
                           child: Text("No Account Yet? Register New Account",
                               style: TextStyle(
                                   fontSize: 15,
-                                  color: Color(0xff6B2480),
+                                  color: mainColor,
                                   decoration: TextDecoration.underline))),
                     ],
                   ))),
