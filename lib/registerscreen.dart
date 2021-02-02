@@ -220,11 +220,10 @@ class _RegisterscreenState extends State<Registerscreen> {
     _email = _emcontroller.text;
     _password = _pscontroller.text;
 
-        final dateTime = DateTime.now();
-        String base64Image = base64Encode(_image.readAsBytesSync());
-        
-        print(base64Image);
+    final dateTime = DateTime.now();
+    String base64Image = base64Encode(_image.readAsBytesSync());
 
+    print(base64Image);
 
     ProgressDialog pr = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
@@ -263,7 +262,6 @@ class _RegisterscreenState extends State<Registerscreen> {
             "password": _password,
             "imagename": _phone + "-${dateTime.microsecondsSinceEpoch}",
             "encoded_string": base64Image,
-
           }).then((res) {
         print(res.body);
 
@@ -385,6 +383,8 @@ class _RegisterscreenState extends State<Registerscreen> {
   String validPassword(String value) {
     if (value.length == 0) {
       return "Password is Required";
+    } else if (value.length < 5) {
+      return "Password must be at least 5 characters";
     }
     return null;
   }

@@ -54,6 +54,7 @@ class _LoginscreenState extends State<Loginscreen> {
           child: SingleChildScrollView(
               //enable to scroll and prevent overflow when keyboard pop out
               child: Container(
+
                   padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
                   child: Column(
                     children: [
@@ -134,7 +135,9 @@ class _LoginscreenState extends State<Loginscreen> {
                                   color: mainColor,
                                   decoration: TextDecoration.underline))),
                     ],
-                  ))),
+                  )
+                  )
+                  ),
         ),
       ),
     );

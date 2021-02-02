@@ -44,6 +44,7 @@ class _MainscreenState extends State<Mainscreen> {
 
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: mainColor,
           title: Text('Bodiary'),
           actions:<Widget>[
