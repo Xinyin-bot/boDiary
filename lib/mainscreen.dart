@@ -9,7 +9,6 @@ import 'package:food_ninja/userdetailsscreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-
 Color mainColor = Color(0xff6B2480);
 Color secondColor = Color(0xffD8399B);
 Color thirdColor = Color(0xffF78484);
@@ -44,19 +43,18 @@ class _MainscreenState extends State<Mainscreen> {
 
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           backgroundColor: mainColor,
           title: Text('Bodiary'),
-          actions:<Widget>[
+          actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.person, 
-                color:Colors.white,),
-                onPressed: () => _userDetailsScreen(),
+                Icons.person,
+                color: Colors.white,
+              ),
+              onPressed: () => _userDetailsScreen(),
             )
           ],
         ),
-        
         body: Column(
           children: [
             postList == null
@@ -107,23 +105,26 @@ class _MainscreenState extends State<Mainscreen> {
                                                                   //image: userList[index]['userimage'] != null ?
                                                                   // NetworkImage(
                                                                   //     "http://sopmathpowy2.com/BoDiary/images/userimages/${userList[0]['userimage']}.jpg") :
-                                                                      
-                                                                    image:  AssetImage('assets/images/ic_logo_transparent.png'),
-                                                                  fit: BoxFit.fill,
+
+                                                                  image: AssetImage(
+                                                                      'assets/images/ic_logo_transparent.png'),
+                                                                  fit: BoxFit
+                                                                      .fill,
                                                                 ))),
                                                     SizedBox(width: 15),
                                                     InkWell(
-                                                      child:Text(
-                                                        postList[index]
-                                                            ['username'],
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                                    ),
-                                                                    onTap: () => _loadPostUserDetails(index))
-                                                    
+                                                        child: Text(
+                                                          postList[index]
+                                                              ['username'],
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        onTap: () =>
+                                                            _loadPostUserDetails(
+                                                                index))
                                                   ]),
                                                   SizedBox(height: 15),
                                                   Container(
@@ -326,12 +327,12 @@ class _MainscreenState extends State<Mainscreen> {
     ));
   }
 
-    void _userDetailsScreen() {
-
-        Navigator.push(context, MaterialPageRoute(
-      builder:(BuildContext context) => 
-      UserDetailsScreen(postsss: widget.post,usersss: widget.user)),
+  void _userDetailsScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (BuildContext context) =>
+              UserDetailsScreen(postsss: widget.post, usersss: widget.user)),
     );
-    
   }
 }

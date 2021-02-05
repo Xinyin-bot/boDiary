@@ -4,18 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_ninja/comment.dart';
 import 'package:food_ninja/user.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 
 import 'Post.dart';
 
-
 Color mainColor = Color(0xff6B2480);
 Color secondColor = Color(0xffD8399B);
 Color thirdColor = Color(0xffF78484);
 Color forthColor = Color(0xffFDBE89);
-
 
 class PostDetailsScreen extends StatefulWidget {
   final Post postsss;
@@ -43,37 +40,15 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
   String _commentcaption = "";
 
-  KeyboardVisibilityNotification _keyboardVisibility = new KeyboardVisibilityNotification();
-  int _keyboardVisibilitySubscriberId;
-  bool _keyboardState;
-
   @override
   void initState() {
     super.initState();
     posts = widget.postsss;
     users = widget.usersss;
 
-    _keyboardState = _keyboardVisibility.isKeyboardVisible;
-    print(_keyboardState);
-
-    _keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-      onChange: (bool visible) {
-        setState(() {
-          _keyboardState = visible;
-          print(_keyboardState);
-        });
-      },
-    );
-    
-
     _loadComments();
     //_loadUsers();
   }
-
-  // @override
-  // void dispose() {
-  //   _keyboardVisibility.removeListener(_keyboardVisibilitySubscriberId);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +139,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       child: Container(
                           padding: EdgeInsets.all(20.0),
                           child: Center(
-                            child: Text(
-                                "No Comment"),
+                            child: Text("No Comment"),
                           )))
                   : Container(
                       child: Container(
@@ -180,8 +154,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(commentList[index]['username'],
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)),
                                     Text(commentList[index]['commentcaption']),
                                     SizedBox(
                                       height: 10,
@@ -229,7 +204,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   }
 
   void _updatenewcomment() {
-    final dateTime  = DateTime.now();
+    final dateTime = DateTime.now();
     _commentcaption = _commentcontroller.text;
 
     http.post("http://sopmathpowy2.com/BoDiary/php/add_newComment.php", body: {
